@@ -1,8 +1,20 @@
 # Proyecto_investigacion
 El repositorio es la aplicación del modelo random forest para predecir paras de producción.
-# Random Forest para anticipar **PARO MAQUINA** (líneas 6 y 7)
+## 🧭 Tabla de contenido
 
-Este proyecto/notebook (`Random_Forest_AF.ipynb`) entrena y evalúa modelos **Random Forest** para **predecir si ocurrirá un paro de máquina** (`PARO MAQUINA` ∈ {0,1}) a partir de variables operacionales de producción.
+- [1) Requisitos](#1-requisitos)
+- [2) Cómo ejecutar (dos opciones)](#2-cómo-ejecutar-dos-opciones)
+- [3) Reproducibilidad (importante)](#3-reproducibilidad-importante)
+- [4) Paso a paso del notebook](#4-paso-a-paso-del-notebook)
+- [5) Estructura de artefactos (salidas)](#5-estructura-de-artefactos-salidas)
+- [6) Notas y recomendaciones](#6-notas-y-recomendaciones)
+- [7) Referencia rápida (comandos)](#7-referencia-rápida-comandos)
+
+---
+
+# 🌿 Random Forest para anticipar **PARO MAQUINA** (líneas 6 y 7) — README reproducible
+
+Este proyecto/notebook (`Random_Forest_AF (1).ipynb`) entrena y evalúa modelos **Random Forest** para **predecir si ocurrirá un paro de máquina** (`PARO MAQUINA` ∈ {0,1}) a partir de variables operacionales de producción.
 
 Incluye:
 
@@ -15,7 +27,8 @@ Incluye:
 
 ---
 
-## 1) Requisitos
+
+## 🧰 1) Requisitos
 
 ### 1.1. Software
 
@@ -34,9 +47,11 @@ El notebook utiliza principalmente:
 
 Instalación recomendada (local):
 
-```bash
+
+\1bash
 pip install -U pandas numpy matplotlib seaborn scikit-learn imbalanced-learn joblib openpyxl
-```
+
+\1
 
 > Nota: `openpyxl` es el motor usual para leer `.xlsx` con `pandas.read_excel()`.
 
@@ -59,24 +74,29 @@ En esta conversación, el archivo se encuentra en:
 
 ---
 
-## 2) Cómo ejecutar (dos opciones)
+
+## ▶️ 2) Cómo ejecutar (dos opciones)
 
 ### Opción A — Google Colab (igual que el notebook)
 
-1. Abrir `Random_Forest_AF.ipynb` en Colab.
+1. Abrir `Random_Forest_AF (1).ipynb` en Colab.
 2. Montar Drive:
 
-```python
+
+\1python
 from google.colab import drive
 drive.mount('/content/drive')
-```
+
+\1
 
 3. Definir `ruta` apuntando al Excel en Drive, por ejemplo:
 
-```python
+
+\1python
 ruta = "/content/drive/MyDrive/Tesis Maestria UDLA/Base de datos/Produccion linea 6 y 7 mayo a nov 2025.xlsx"
 df = pd.read_excel(ruta)
-```
+
+\1
 
 4. Ejecutar todas las celdas en orden.
 
@@ -90,37 +110,46 @@ df = pd.read_excel(ruta)
 1. Clonar/copiar el notebook y el Excel a una carpeta.
 2. Crear entorno (opcional pero recomendado):
 
-```bash
+
+\1bash
 python -m venv .venv
-# Windows:
+# 🌿 Windows:
 .\.venv\Scripts\activate
-# macOS/Linux:
+# 🌿 macOS/Linux:
 source .venv/bin/activate
-```
+
+\1
 
 3. Instalar dependencias:
 
-```bash
+
+\1bash
 pip install -U pandas numpy matplotlib seaborn scikit-learn imbalanced-learn joblib openpyxl
-```
+
+\1
 
 4. En el notebook, **reemplazar** la parte de Google Drive por una ruta local, por ejemplo:
 
-```python
+
+\1python
 ruta = "./Produccion linea 6 y 7 mayo a nov 2025.xlsx"
 df = pd.read_excel(ruta)
-```
+
+\1
 
 5. Cambiar las rutas donde se guardan modelo/umbral (si no usas Drive), por ejemplo:
 
-```python
+
+\1python
 modelfinal_filename = "./modelo_final_rf_smote.joblib"
 umbral_filename = "./umbral_optimo.txt"
-```
+
+\1
 
 ---
 
-## 3) Reproducibilidad (importante)
+
+## 🔁 3) Reproducibilidad (importante)
 
 El notebook fija `random_state=42` en:
 
@@ -142,19 +171,24 @@ Para que los resultados sean lo más reproducibles posible:
 
 En local, puedes generar un archivo de versiones:
 
-```bash
+
+\1bash
 pip freeze > requirements.txt
-```
+
+\1
 
 Y luego reproducir el entorno con:
 
-```bash
+
+\1bash
 pip install -r requirements.txt
-```
+
+\1
 
 ---
 
-## 4) Paso a paso del notebook
+
+## 🧭 4) Paso a paso del notebook
 
 A continuación se describe lo que hace cada bloque (equivale a las secciones del notebook).
 
@@ -181,9 +215,11 @@ Se imprimen:
 
 1) **`FECHA`** se convierte a `datetime`:
 
-```python
+
+\1python
 df2["FECHA"] = pd.to_datetime(df2["FECHA"], errors="coerce")
-```
+
+\1
 
 2) Se crea una función robusta `time_to_seconds()` para convertir `INICIO_PROCESO` y `FIN_PROCESO` a **segundos desde medianoche**, soportando:
 
@@ -252,11 +288,13 @@ Features usadas:
 - Se ordena por `FECHA`.
 - Se define un corte al 80% del dataset:
 
-```python
+
+\1python
 cut = int(len(df_model) * 0.8)
 train_df = df_model.iloc[:cut]
 test_df  = df_model.iloc[cut:]
-```
+
+\1
 
 Se reporta el rango de fechas en train/test y la distribución de la clase en cada partición.
 
@@ -353,26 +391,32 @@ Pasos:
 3. Preparar un DataFrame nuevo `X_new` con las **mismas columnas de features** que se usaron en entrenamiento.
 4. Obtener probabilidades con:
 
-```python
+
+\1python
 proba = loaded_pipeline.predict_proba(X_new)[:, 1]
-```
+
+\1
 
 5. Convertir a predicción final usando el umbral:
 
-```python
+
+\1python
 pred = (proba >= loaded_optimal_threshold).astype(int)
-```
+
+\1
 
 ---
 
-## 5) Estructura de artefactos (salidas)
+
+## 🗂️ 5) Estructura de artefactos (salidas)
 
 - `modelo_final_rf_smote.joblib`: pipeline completo entrenado (preprocesamiento + SMOTE + RandomForest).
 - `umbral_optimo.txt`: umbral numérico (float) calculado para maximizar F1 (según el notebook).
 
 ---
 
-## 6) Notas y recomendaciones
+
+## 💡 6) Notas y recomendaciones
 
 - **Split temporal**: es apropiado cuando se quiere simular predicción hacia el futuro y evitar fuga de información.
 - **Valores faltantes**: se imputan automáticamente (mediana para numéricas, moda para categóricas).
@@ -380,19 +424,24 @@ pred = (proba >= loaded_optimal_threshold).astype(int)
 
 ---
 
-## 7) Referencia rápida (comandos)
+
+## ⌨️ 7) Referencia rápida (comandos)
 
 Instalar dependencias:
 
-```bash
+
+\1bash
 pip install -U pandas numpy matplotlib seaborn scikit-learn imbalanced-learn joblib openpyxl
-```
+
+\1
 
 Abrir notebook local:
 
-```bash
-jupyter lab
-# o
-jupyter notebook
-```
 
+\1bash
+jupyter lab
+# 🌿 o
+jupyter notebook
+
+\1
+> 💡 **Tip:** Para obtener resultados idénticos, usa la misma versión de librerías, el mismo *split* por fecha y la misma semilla (`random_state`) en todo el flujo.
