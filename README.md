@@ -365,7 +365,7 @@ pred = (proba >= loaded_optimal_threshold).astype(int)
 
 ---
 
-## 5) Estructura de artefactos (salidas)
+## 5)🗂️ Estructura de artefactos (salidas)
 
 - `modelo_final_rf_smote.joblib`: pipeline completo entrenado (preprocesamiento + SMOTE + RandomForest).
 - `umbral_optimo.txt`: umbral numérico (float) calculado para maximizar F1 (según el notebook).
