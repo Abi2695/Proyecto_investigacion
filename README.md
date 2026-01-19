@@ -2,7 +2,7 @@
 El repositorio es la aplicación del modelo random forest para predecir paras de producción.
 # Random Forest para anticipar **PARO MAQUINA** (líneas 6 y 7) — README reproducible
 
-Este proyecto/notebook (`Random_Forest_AF (1).ipynb`) entrena y evalúa modelos **Random Forest** para **predecir si ocurrirá un paro de máquina** (`PARO MAQUINA` ∈ {0,1}) a partir de variables operacionales de producción.
+Este proyecto/notebook (`Random_Forest_AF.ipynb`) entrena y evalúa modelos **Random Forest** para **predecir si ocurrirá un paro de máquina** (`PARO MAQUINA` ∈ {0,1}) a partir de variables operacionales de producción.
 
 Incluye:
 
